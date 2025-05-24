@@ -4,11 +4,13 @@
     "": {
       "name": "vscode",
       "dependencies": {
+        "vscode": ".",
         "@prisma/client": "^6.8.2",
         "bcryptjs": "^3.0.2",
         "dotenv": "^16.5.0",
         "express": "^5.1.0",
         "jsonwebtoken": "^9.0.2",
+        "vscode": ".",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -208,6 +210,14 @@
 
     "vary": ["vary@1.1.2", "", {}, "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg=="],
 
+    "vscode": ["vscode@file:", { "dependencies": { "@prisma/client": "^6.8.2", "bcryptjs": "^3.0.2", "dotenv": "^16.5.0", "express": "^5.1.0", "jsonwebtoken": "^9.0.2", "vscode": "." }, "devDependencies": { "@types/bun": "latest", "prisma": "^6.8.2" }, "peerDependencies": { "typescript": "^5" } }],
+
+    "vscode": ["vscode@file:", { "dependencies": { "@prisma/client": "^6.8.2", "bcryptjs": "^3.0.2", "dotenv": "^16.5.0", "express": "^5.1.0", "jsonwebtoken": "^9.0.2", "vscode": "." }, "devDependencies": { "@types/bun": "latest", "prisma": "^6.8.2" }, "peerDependencies": { "typescript": "^5" } }],
+
     "wrappy": ["wrappy@1.0.2", "", {}, "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ=="],
+
+    "vscode/vscode": ["vscode@file:.", {}],
+
+    "vscode/vscode": ["vscode@file:.", {}],
   }
 }
