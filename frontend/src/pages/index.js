@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import LoginForm from '@/components/LoginForm';
-import { useState } from 'react';
 import RegisterForm from '@/components/RegisterForm';
+import { useState } from 'react';
+
 
 
 export default function Home() {
@@ -27,7 +28,7 @@ export default function Home() {
       </Head>
       <AnimatedBackground />
       <main >
-        <div id='Forms' className='text-center p-8 shadow-lg rounded-lg bg-gray-800 relative z-10 flex flex-col '> 
+        <div id='initialPage' className='text-center p-8 shadow-lg rounded-lg bg-gray-800 relative z-10 flex flex-col '> 
           <h1 className="text-5xl font-[orbitron] text-indigo-700 mb-4">
             Bem-vindo ao OpenChallenge!
           </h1>
