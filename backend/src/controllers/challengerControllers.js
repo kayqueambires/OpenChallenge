@@ -62,3 +62,56 @@ export const createChallenge = async (req, res) => {
       .json({ message: 'Unable to create challenge.', error: error.message });
   }
 };
+
+export const updateChallenge = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, difficulty } = req.body;
+
+  try {
+    const updateChallenge = await p.challenge.update({
+      where: { id: Number(id) },
+      data: {
+        title,
+        description,
+        difficulty,
+      },
+    });
+    return res.status(200).json(updateChallenge);
+  } catch (error) {
+    console.error('Error updating challenge:', error);
+
+    if (error.code === 'P2025') {
+      return res
+        .status(404)
+        .json({ message: 'Challenge not found for update.' });
+    }
+    if (error.code === 'P2002' && error.meta?.target?.includes('title')) {
+      return res.status(409).json({
+        message: 'There is already another challenge with this title.',
+      });
+    }
+    return res
+      .status(500)
+      .json({ message: 'Unable to update challenge.', error: error.message });
+  }
+};
+
+export const deleteChallenge = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await p.challenge.delete({
+      where: { id: Number(id) },
+    });
+  } catch (error) {
+    console.error('Error deleting challenge:', error);
+    if (error.code === 'P2025') {
+      return res
+        .status(404)
+        .json({ message: 'Challenge not found for deletion.' });
+    }
+    return res
+      .status(500)
+      .json({ message: 'Unable to delete challenge.', error: error.message });
+  }
+};
