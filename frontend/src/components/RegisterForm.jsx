@@ -65,7 +65,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
                       htmlFor="password"
                       className="block text-sm/6 font-medium text-slate-200 text-left mt-1"
                     >
-                      Confirme a Senha 
+                      Confirme a Senha
                     </label>  
                   <div className="mt-2">
                     <input
