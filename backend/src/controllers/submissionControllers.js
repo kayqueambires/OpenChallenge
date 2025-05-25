@@ -44,7 +44,7 @@ export const createSubmission = async (req, res) => {
     const submission = await p.submission.create({
       data: {
         code,
-        result: sanitizedOutput,
+        result: sanitizedOutput,  
         passed,
         userId,
         challengeId,
