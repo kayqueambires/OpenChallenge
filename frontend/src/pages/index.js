@@ -1,16 +1,29 @@
 import Head from 'next/head';
+import AnimatedBackground from '@/components/AnimatedBackground';
+import { Rajdhani } from 'next/font/google';
+
+const rajdhani = Rajdhani({
+  weight: ['300', '400', '500', '600', '700'], // Escolha os pesos que você vai usar para otimização
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-rajdhani', // Defina uma variável CSS para usar com Tailwind
+});
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen  flex items-center justify-center">
       <Head>
         <title>OpenChallenge - Home</title>
         <meta name="description" content="Página inicial do OpenChallenge" />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap"
+          rel="stylesheet"
+        />
       </Head>
-
+      <AnimatedBackground />
       <main className="text-center p-8 shadow-lg rounded-lg bg-gray-800 relative z-10 flex flex-col ">
-        <h1 className="text-5xl font-extrabold text-indigo-700 mb-4">
+        <h1 className="text-5xl font-[orbitron] text-indigo-700 mb-4">
           Bem-vindo ao OpenChallenge!
         </h1>
         <p className="text-lg text-slate-200 mb-6">
@@ -20,10 +33,10 @@ export default function Home() {
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               alt="Your Company"
-              src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-              className="mx-auto h-10 w-auto"
+              src="/images/Logo.png"
+              className="mx-auto h-35 w-auto"
             />
-            <h2 className="mt-10 text-center text-2xl/9  font-mono tracking-tight text-slate-200">
+            <h2 className="mt-4 text-center text-2xl/9  font-mono tracking-tight text-slate-200">
               Entre na sua conta
             </h2>
           </div>
@@ -49,7 +62,6 @@ export default function Home() {
                   />
                 </div>
               </div>
-
               <div>
                 <div className="flex items-center justify-between">
                   <label
