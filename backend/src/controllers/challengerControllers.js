@@ -31,11 +31,11 @@ export const getChallengeByID = async (req, res) => {
 };
 
 export const createChallenge = async (req, res) => {
-  const { title, description, difficulty } = req.body;
+  const { title, description, difficulty, solution } = req.body;
 
   if (!title || !description || !difficulty) {
     return res.status(400).json({
-      message: 'Title, Description, and Difficulty are required.',
+      message: 'Title, Description, Difficulty and Solution are required.',
     });
   }
 
@@ -45,6 +45,7 @@ export const createChallenge = async (req, res) => {
         title,
         description,
         difficulty,
+        solution,
       },
     });
 
