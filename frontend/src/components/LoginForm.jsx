@@ -1,13 +1,16 @@
+import { Inter } from 'next/font/google'
 
-
-
+const inter = Inter({
+  subsets: ['latin'],
+  weight: '400',
+})
 export default function LoginForm({ onSwitchToRegister }) {
     return (
               <form action="#" method="POST" className="space-y-6">
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm/6 font-medium  text-left text-slate-200"
+                    className={`block text-sm/6 ${inter.className} font-medium  text-left text-slate-200`}
                   >
                     Endereço de Email
                   </label>
@@ -27,14 +30,14 @@ export default function LoginForm({ onSwitchToRegister }) {
                   <div className="flex items-center justify-between">
                     <label
                       htmlFor="password"
-                      className="block text-sm/6 font-medium text-slate-200"
+                      className={`block text-sm/6 ${inter.className} font-medium text-slate-200`}
                     >
                       Entre
                     </label>
                     <div className="text-sm">
                       <a
                         href="#"
-                        className="font-semibold text-indigo-600 hover:text-indigo-500"
+                        className={`font-semibold  text-indigo-600 hover:text-indigo-500`}
                       >
                         Esqueceu a senha?
                       </a>
@@ -53,7 +56,7 @@ export default function LoginForm({ onSwitchToRegister }) {
                   </div>
                 </div>
 
-                <div className='flex justify-between'>
+                <div className='flex justify-between '>
                   <button
                     type="button"
                     onClick={onSwitchToRegister}

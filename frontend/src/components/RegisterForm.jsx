@@ -1,4 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Inter } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: '500',
+})
 
 
 export default function RegisterForm({ onSwitchToLogin }) {
@@ -23,7 +29,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm/6 font-medium  text-left text-slate-200"
+                    className={`block text-sm/6 font-medium ${inter.className} text-left text-slate-200`}
                   >
                     Endereço de Email
                   </label>
@@ -35,7 +41,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
                       placeholder="Email"
                       required
                       autoComplete="email"
-                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      className={`block w-full rounded-md ${inter.className} bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
                     />
                   </div>
                 </div>
@@ -63,7 +69,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
                   </div>
                   <label
                       htmlFor="password"
-                      className="block text-sm/6 font-medium text-slate-200 text-left mt-1"
+                      className={`block text-sm/6 ${inter.className} font-medium text-slate-200 text-left mt-1`}
                     >
                       Confirme a Senha
                     </label>  
