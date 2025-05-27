@@ -10,9 +10,16 @@ datasource db {
 
 model User {
   id          Int          @id @default(autoincrement())
+  username    String       @unique @default("Felipe")
   email       String       @unique
   password    String
+  role        Role         @default(USER)
   submissions Submission[]
+}
+
+enum Role {
+  USER  // Valor para usuários comuns
+  ADMIN // Valor para usuários administradores
 }
 
 model Challenge {
