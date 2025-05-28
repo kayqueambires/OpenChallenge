@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from 'react';
 import { Inter } from 'next/font/google'
 import { Eye, EyeOff } from 'lucide-react';
@@ -11,23 +12,27 @@ const inter = Inter({
 
 
 export default function RegisterForm({ onSwitchToLogin }) {
-    const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [showErrorPassword, setShowErrorPassword] = useState(false)
+    const [email, setEmail] = useState('');
+    const [user, setUser] = useState('');
+    const [showErrorPassword, setShowErrorPassword] = useState(false);
+    const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
+    
     useEffect(() => {
+      const allFieldsFilled = user && email && password && confirmPassword;
+      const validPassword = password === confirmPassword && password.length >= 8;
+      const validUser = user.length >= 5;
+      const emailRegex = new RegExp(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+      const validEmail = emailRegex.test(email);
+      const isFormValid = allFieldsFilled && validPassword && validUser && validEmail;
+      setButtonDisabled(!isFormValid);
 
-        if (password && confirmPassword) {
-            if (password !== confirmPassword) {
-                setShowErrorPassword(true);
-            } else {
-                setShowErrorPassword(false);
-            }
-        } else {
-            
-            setShowErrorPassword(false);
-        }
-    }, [password, confirmPassword]); 
+      setShowErrorPassword(!validPassword);
+  
+    }, [password, confirmPassword, email , user]);
 
     const handleSubmit = (event)=>{
       event.preventDefault();
@@ -50,9 +55,11 @@ export default function RegisterForm({ onSwitchToLogin }) {
                     <input 
                     type="text" 
                     name="user"
+                    minLength={"5"}
                     id="user" 
                     autoComplete="user"
                     placeholder='Usuário'
+                    onChange={(e) => setUser(e.target.value)}
                     required
                     className={`block  w-full rounded-md ${inter.className} bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
                     />
@@ -72,6 +79,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
                       type="email"
                       placeholder="Email"
                       required
+                      onChange={(e) => setEmail(e.target.value)}
                       autoComplete="email"
                       className={`block required w-full rounded-md ${inter.className} bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
                     />
@@ -89,8 +97,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
                   <div className="mt-2 relative">
                     <input
                       id="password"
+                      minLength={"8"}
                       name="password"
-                      type="password"
+                      type={showPassword ? 'text' : 'password'} 
                       placeholder="Senha"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -114,8 +123,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
                   <div className="mt-2 relative">
                     <input
                       id="confirmPassword"
+                      minLength={"8"}
                       name="confirmPassword"
-                      type="password"
+                      type={showPassword ? 'text' : 'password'} 
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Confirme a senha"
@@ -142,13 +152,14 @@ export default function RegisterForm({ onSwitchToLogin }) {
                   <button
                     type="button"
                     onClick={onSwitchToLogin}
-                    className="  basis-45 rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-slate-100 shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"             
+                    className="  basis-45 rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-slate-100 shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "             
                   >
                     Voltar
                   </button>
                   <button
                     type="submit"
-                    className="  basis-45 rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-slate-100 shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    disabled={buttonDisabled}   
+                    className="  basis-45 rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-slate-100 shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400 disabled:cursor-not-allowed"
                   >
                     Cadastrar
                   </button>
