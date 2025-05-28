@@ -1,12 +1,26 @@
+"use client";
 import { Inter } from 'next/font/google'
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 const inter = Inter({
   subsets: ['latin'],
   weight: '400',
 })
 export default function LoginForm({ onSwitchToRegister }) {
+    const [showPassword, setShowPassword] = useState(false);
+    const handleSubmit = (event)=>{
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+
+      const dataForms = Object.fromEntries(formData.entries());
+
+      const resultJson = JSON.stringify(dataForms);
+    }
     return (
-              <form action="#" method="POST" className="space-y-6">
+              <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
+                
                 <div>
                   <label
                     htmlFor="email"
@@ -43,16 +57,22 @@ export default function LoginForm({ onSwitchToRegister }) {
                       </a>
                     </div>
                   </div>
-                  <div className="mt-2">
+                  <div className="mt-2 relative">
                     <input
                       id="password"
                       name="password"
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Senha"
                       required
                       autoComplete="current-password"
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="absolute inset-y-0 right-2  text-gray-500 hover:text-gray-700"
+                    >{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
                   </div>
                 </div>
 
