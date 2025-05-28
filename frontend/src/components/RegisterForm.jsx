@@ -23,6 +23,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
     useEffect(() => {
       const allFieldsFilled = user && email && password && confirmPassword;
       const validPassword = password === confirmPassword && password.length >= 8;
+      const errorMessagePassword = password !== confirmPassword;
       const validUser = user.length >= 5;
       const emailRegex = new RegExp(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -30,7 +31,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
       const isFormValid = allFieldsFilled && validPassword && validUser && validEmail;
       setButtonDisabled(!isFormValid);
 
-      setShowErrorPassword(!validPassword);
+      setShowErrorPassword(errorMessagePassword);
   
     }, [password, confirmPassword, email , user]);
 
