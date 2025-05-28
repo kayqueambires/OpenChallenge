@@ -1,20 +1,22 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'chave_secreta' // mudar em prod
+const JWT_SECRET = process.env.JWT_SECRET || 'chave_secreta'; // mudar em prod
 
 export const authenticationToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; 
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    if (token == null) {
-        return res.status(401).json({message: 'Authentication required. No token provided.'})
+  if (token == null) {
+    return res
+      .status(401)
+      .json({ message: 'Authentication required. No token provided.' });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid or expired token.' });
     }
-
-    jwt.verify(token, JWT_SECRET, (err, user) => {
-        if (err){
-            return res.status(403).json({message: 'Invalid or expired token.'});
-        }
-        req.user = user;
-        next();
-    })
-}
+    req.user = user;
+    next();
+  });
+};

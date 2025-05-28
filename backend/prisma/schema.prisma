@@ -13,13 +13,14 @@ model User {
   username    String       @unique @default("Felipe")
   email       String       @unique
   password    String
-  role        Role         @default(USER)
+  role        String
   submissions Submission[]
 }
 
-enum Role {
-  USER  // Valor para usuários comuns
-  ADMIN // Valor para usuários administradores
+model AllowedIp {
+  id        Int      @id @default(autoincrement())
+  ipAddress String   @unique
+  createdAt DateTime @default(now())
 }
 
 model Challenge {

@@ -1,9 +1,8 @@
 import express from 'express';
 import challengeRoutes from './challenge.routes.js';
 import userRoutes from './user.routes.js';
+import authRoutes from './auth.routes.js';
 import submissionRoutes from './submission.routes.js';
-import authRoutes from './authRoutes.js';
-
 
 const router = express.Router();
 

@@ -1,6 +1,5 @@
 {
   "name": "vscode",
-  "module": "index.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
@@ -8,7 +7,8 @@
     "prisma": "^6.8.2"
   },
   "scripts": {
-    "dev": "bun run ./src/index.js"
+    "dev": "bun run ./src/index.js dev",
+    "prod": "bun run ./src/index.js prod"
   },
   "peerDependencies": {
     "typescript": "^5"
