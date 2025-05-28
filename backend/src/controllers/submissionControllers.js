@@ -67,3 +67,21 @@ export const createSubmission = async (req, res) => {
     });
   }
 };
+
+export const getSubmissionById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const submission = await p.submission.findUnique({
+      where: { id: Number(id)}
+    });
+    
+    if (!challenge) {
+      return res.status(404).json({message: 'Submission not found'})
+    }
+    res.status(200).json(submission);
+  } catch (error){
+    console.error('Error fetching submission by ID:', error);
+    res.status(500).json({message: 'Internal server error'})
+  }
+};
