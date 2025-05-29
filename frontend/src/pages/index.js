@@ -2,8 +2,9 @@ import Head from 'next/head';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import LoginForm from '@/components/LoginForm';
 import RegisterForm from '@/components/RegisterForm';
+import ForgotPasswordForm from '@/components/forgotPasswordForm';
 import { useState } from 'react';
-import { Titillium_Web, Titillium_Web } from 'next/font/google'
+import { Titillium_Web } from 'next/font/google'
 import { Inter } from 'next/font/google'
 
 const titillium_Web = Titillium_Web({
@@ -17,12 +18,17 @@ const inter = Inter({
 
 export default function Home() {
   const [showLoginForm, setShowLoginForm] = useState(true);
+  const [modalForgotPassword, setModalForgotPassword] = useState(false);
   const handleSwitchToRegister = () => {
     setShowLoginForm(false);
   };
 
   const handleSwitchToLogin = () => {
     setShowLoginForm(true);
+  };
+
+  const handleSwitchToForgotPassword = () => {
+    setModalForgotPassword(true);
   };
   return (
     <div className="min-h-screen  flex items-center justify-center">
@@ -56,7 +62,7 @@ export default function Home() {
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 {showLoginForm ? (
-                  <LoginForm onSwitchToRegister={handleSwitchToRegister} />
+                  <LoginForm onSwitchToRegister={handleSwitchToRegister}  onSwitchToForgotPassword={handleSwitchToForgotPassword} />
                       ) : (
                   <RegisterForm onSwitchToLogin={handleSwitchToLogin} />
                  )}
@@ -64,6 +70,9 @@ export default function Home() {
           </div>
         </div>
       </main>
+      {modalForgotPassword ? <ForgotPasswordForm 
+      open={modalForgotPassword} 
+      onClose={() => setModalForgotPassword(false)} /> : ""}
     </div>
   );
 }

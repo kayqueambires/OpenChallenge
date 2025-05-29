@@ -19,9 +19,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
 
   useEffect(() => {
     const allFieldsFilled = user && email && password && confirmPassword;
-    const validPassword = password === confirmPassword && password.length >= 8;
+    const validPassword = password === confirmPassword;
     const errorMessagePassword = password !== confirmPassword;
-    const validUser = user.length >= 5;
+    const validUser = user.length >= 5 && user.length <= 18;
     const emailRegex = new RegExp(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
@@ -39,7 +39,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
     const formData = new FormData(event.target);
     const dataForms = Object.fromEntries(formData.entries());
 
-    // Remove o campo de confirmação de senha (não é necessário na API)
+   
     delete dataForms.confirmPassword;
 
     try {
@@ -62,8 +62,8 @@ export default function RegisterForm({ onSwitchToLogin }) {
         return;
       }
 
-      alert(data.message); // Sucesso
-      onSwitchToLogin(); // Volta pra tela de login
+      alert(data.message);
+      onSwitchToLogin(); 
     } catch (error) {
       console.error('Erro ao registrar:', error);
       alert('Erro ao conectar com o servidor.');

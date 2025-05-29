@@ -3,21 +3,44 @@ import { Inter } from 'next/font/google'
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 
+
 const inter = Inter({
   subsets: ['latin'],
   weight: '400',
 })
-export default function LoginForm({ onSwitchToRegister }) {
+export default function LoginForm({ onSwitchToRegister, onSwitchToForgotPassword, onHandleOpen }) {
     const [showPassword, setShowPassword] = useState(false);
-    const handleSubmit = (event)=>{
+    const handleSubmit = async (event)=>{
       event.preventDefault();
 
       const formData = new FormData(event.target);
 
       const dataForms = Object.fromEntries(formData.entries());
 
-      const resultJson = JSON.stringify(dataForms);
-    }
+      try {
+        const response = await fetch('http://localhost:3001/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: dataForms.email,
+            password: dataForms.password,
+          }),
+          
+        });
+        if(!response.ok){
+          alert(response.status);
+          return;
+        }
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        alert(data.message);
+      
+        }catch (error) {
+          alert('Erro no login: ', error);
+        }
+}
     return (
               <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
                 
@@ -51,11 +74,13 @@ export default function LoginForm({ onSwitchToRegister }) {
                     <div className="text-sm">
                       <a
                         href="#"
+                        onClick={onSwitchToForgotPassword}
                         className={`font-semibold  text-indigo-600 hover:text-indigo-500`}
                       >
                         Esqueceu a senha?
                       </a>
                     </div>
+
                   </div>
                   <div className="mt-2 relative">
                     <input
