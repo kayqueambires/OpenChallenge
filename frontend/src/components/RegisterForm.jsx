@@ -1,46 +1,45 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { Inter } from 'next/font/google';
-import { Eye, EyeOff } from 'lucide-react';
+'use client'
+import { useState, useEffect } from 'react'
+import { Inter } from 'next/font/google'
+import { Eye, EyeOff } from 'lucide-react'
 
 const inter = Inter({
   subsets: ['latin'],
   weight: '500',
-});
+})
 
 export default function RegisterForm({ onSwitchToLogin }) {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [user, setUser] = useState('');
-  const [showErrorPassword, setShowErrorPassword] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [user, setUser] = useState('')
+  const [showErrorPassword, setShowErrorPassword] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
-    const allFieldsFilled = user && email && password && confirmPassword;
-    const validPassword = password === confirmPassword;
-    const errorMessagePassword = password !== confirmPassword;
-    const validUser = user.length >= 5 && user.length <= 18;
+    const allFieldsFilled = user && email && password && confirmPassword
+    const validPassword = password === confirmPassword
+    const errorMessagePassword = password !== confirmPassword
+    const validUser = user.length >= 5 && user.length <= 18
     const emailRegex = new RegExp(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-    const validEmail = emailRegex.test(email);
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    )
+    const validEmail = emailRegex.test(email)
     const isFormValid =
-      allFieldsFilled && validPassword && validUser && validEmail;
-    setButtonDisabled(!isFormValid);
+      allFieldsFilled && validPassword && validUser && validEmail
+    setButtonDisabled(!isFormValid)
 
-    setShowErrorPassword(errorMessagePassword);
-  }, [password, confirmPassword, email, user]);
+    setShowErrorPassword(errorMessagePassword)
+  }, [password, confirmPassword, email, user])
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const formData = new FormData(event.target);
-    const dataForms = Object.fromEntries(formData.entries());
+    const formData = new FormData(event.target)
+    const dataForms = Object.fromEntries(formData.entries())
 
-   
-    delete dataForms.confirmPassword;
+    delete dataForms.confirmPassword
 
     try {
       const response = await fetch('http://localhost:3001/auth/register', {
@@ -53,22 +52,22 @@ export default function RegisterForm({ onSwitchToLogin }) {
           email: dataForms.email,
           password: dataForms.password,
         }),
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
 
       if (!response.ok) {
-        alert(`Erro: ${data.message}`);
-        return;
+        alert(`Erro: ${data.message}`)
+        return
       }
 
-      alert(data.message);
-      onSwitchToLogin(); 
+      alert(data.message)
+      onSwitchToLogin()
     } catch (error) {
-      console.error('Erro ao registrar:', error);
-      alert('Erro ao conectar com o servidor.');
+      console.error('Erro ao registrar:', error)
+      alert('Erro ao conectar com o servidor.')
     }
-  };
+  }
 
   return (
     <form
@@ -197,5 +196,5 @@ export default function RegisterForm({ onSwitchToLogin }) {
         </button>
       </div>
     </form>
-  );
+  )
 }
