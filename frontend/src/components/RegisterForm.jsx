@@ -9,30 +9,34 @@ const inter = Inter({
 })
 
 export default function RegisterForm({ onSwitchToLogin }) {
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [email, setEmail] = useState('')
   const [user, setUser] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [showErrorPassword, setShowErrorPassword] = useState(false)
-  const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showErrorConfirmPassword, setShowErrorConfirmPassword] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
   useEffect(() => {
     const allFieldsFilled = user && email && password && confirmPassword
-    const validPassword = password === confirmPassword
+    //Password checks
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,14}$/
+    const validPassword = regexPassword.test(password);
     const errorMessagePassword = password !== confirmPassword
+    setShowErrorPassword(!validPassword)
+    setShowErrorConfirmPassword(errorMessagePassword)
+
     const validUser = user.length >= 5 && user.length <= 18
-    const emailRegex = new RegExp(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    )
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
     const validEmail = emailRegex.test(email)
-    const isFormValid =
-      allFieldsFilled && validPassword && validUser && validEmail
+    const isFormValid = allFieldsFilled && validPassword && validUser && validEmail && !errorMessagePassword
     setButtonDisabled(!isFormValid)
 
-    setShowErrorPassword(errorMessagePassword)
-  }, [password, confirmPassword, email, user])
 
+  }, [password, confirmPassword, email, user])
+  //Fetch para o register
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -88,10 +92,11 @@ export default function RegisterForm({ onSwitchToLogin }) {
             type="text"
             name="user"
             minLength={'5'}
+            maxLength={'18'}
             id="user"
             autoComplete="user"
             placeholder="Usuário"
-            onChange={(e) => setUser(e.target.value)}
+            onChange={(e) => setUser(e.target.value.trim())}
             required
             className={`block  w-full rounded-md ${inter.className} bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
           />
@@ -130,6 +135,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
           <input
             id="password"
             minLength={'8'}
+            maxLength={'14'}
             name="password"
             type={showPassword ? 'text' : 'password'}
             placeholder="Senha"
@@ -147,6 +153,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </div>
+        <label htmlFor="" className="block text-left text-xs text-red-500">
+          {showErrorPassword ? `A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um caractere especial e um número. ` : ''}
+        </label>
         <label
           htmlFor="password"
           className={`block text-sm/6 ${inter.className} font-medium text-slate-200 text-left mt-1`}
@@ -157,6 +166,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
           <input
             id="confirmPassword"
             minLength={'8'}
+            maxLength={'14'}
             name="confirmPassword"
             type={showPassword ? 'text' : 'password'}
             value={confirmPassword}
@@ -175,7 +185,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
           </button>
         </div>
         <label htmlFor="" className="block text-left text-xs text-red-500">
-          {showErrorPassword ? 'As senhas não coincidem.' : ''}
+          {showErrorConfirmPassword ? 'As senhas não coincidem.' : ''}
         </label>
       </div>
 

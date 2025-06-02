@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 
 import {
   Dialog,
@@ -6,7 +7,6 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { Titillium_Web, Inter } from 'next/font/google'
 
 
@@ -20,6 +20,41 @@ const inter = Inter({
 })
 
 export default function ForgotPasswordForm({ open, onClose }) {
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.target)
+
+    const dataForms = Object.fromEntries(formData.entries())
+
+    try {
+      const response = await fetch('', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: dataForms.email
+        }),
+      })
+
+      const data = response.json()
+      if (!response.ok) {
+        throw new Error(`Error: ${data.message}`)
+      }
+
+
+
+    } catch (error) {
+      alert(`Error: ${error}`)
+    }
+
+
+  }
+
+
   return (
     <Dialog open={open} onClose={onClose} className="relative z-10">
       <DialogBackdrop
@@ -47,10 +82,11 @@ export default function ForgotPasswordForm({ open, onClose }) {
                   Nós lhe enviaremos um e-mail com um link para redefinir sua senha.
                 </p>
                 <div className="mt-2 self-center sm:mt-6">
-                  <form action="" method="post" id='forgotPasswordForm'>
+                  <form action="" method="post" id='forgotPasswordForm' onSubmit={handleSubmit}>
                     <input id="email"
                       name="email"
                       type="email"
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Digite seu email"
                       required
                       autoComplete="email"
@@ -72,7 +108,7 @@ export default function ForgotPasswordForm({ open, onClose }) {
                 type="button"
                 data-autofocus
                 onClick={onClose}
-                className="mt-3 inline-flex w-full justify-center rounded-3xl bg-white px-3 py-2 text-xs  font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                className="mt-3 inline-flex w-full justify-center rounded-3xl bg-slate-200 px-3 py-2 text-xs  font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
               >
                 Cancel
               </button>
