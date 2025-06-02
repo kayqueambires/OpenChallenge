@@ -14,29 +14,35 @@ export default function RegisterForm({ onSwitchToLogin }) {
   const [password, setPassword] = useState('')
   const [showErrorPassword, setShowErrorPassword] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [showErrorConfirmPassword, setShowErrorConfirmPassword] = useState(false)
+  const [showErrorConfirmPassword, setShowErrorConfirmPassword] =
+    useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
 
   useEffect(() => {
     const allFieldsFilled = user && email && password && confirmPassword
-    //Password checks
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,14}$/
-    const validPassword = regexPassword.test(password);
+    // Password checks
+    const regexPassword =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,14}$/
+    const validPassword = regexPassword.test(password)
     const errorMessagePassword = password !== confirmPassword
     setShowErrorPassword(!validPassword)
     setShowErrorConfirmPassword(errorMessagePassword)
 
     const validUser = user.length >= 5 && user.length <= 18
-    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const emailRegex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     const validEmail = emailRegex.test(email)
-    const isFormValid = allFieldsFilled && validPassword && validUser && validEmail && !errorMessagePassword
+    const isFormValid =
+      allFieldsFilled &&
+      validPassword &&
+      validUser &&
+      validEmail &&
+      !errorMessagePassword
     setButtonDisabled(!isFormValid)
-
-
   }, [password, confirmPassword, email, user])
-  //Fetch para o register
+  // Fetch para o register
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -154,7 +160,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
           </button>
         </div>
         <label htmlFor="" className="block text-left text-xs text-red-500">
-          {showErrorPassword ? `A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um caractere especial e um número. ` : ''}
+          {showErrorPassword
+            ? `A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um caractere especial e um número. `
+            : ''}
         </label>
         <label
           htmlFor="password"

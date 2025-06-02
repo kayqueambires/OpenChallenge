@@ -6,7 +6,6 @@ import ForgotPasswordForm from '@/components/forgotPasswordForm'
 import { useState } from 'react'
 import { Titillium_Web, Inter } from 'next/font/google'
 
-
 const titillium_Web = Titillium_Web({
   subsets: ['latin'],
   weight: '600',
@@ -57,7 +56,6 @@ export default function Home() {
                 alt="Logo"
                 src="/images/Logo.png"
                 className="mx-auto h-35 w-auto"
-
               />
               <h2
                 className={`mt-4 text-center text-2xl/9 ${inter.className} font-mono tracking-tight text-slate-200`}
