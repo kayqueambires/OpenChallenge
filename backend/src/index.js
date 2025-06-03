@@ -12,8 +12,17 @@ const envFile = `.env.${mode}`;
 const result = config({ path: envFile });
 
 if (result.error) {
-  console.error('❌ Erro ao carregar o .env:', result.error);
-  process.exit(1);
+  console.warn(
+    `⚠️ Aviso: Não foi possível carregar ${envFile}, tentando .env padrão...`
+  );
+  const fallbackResult = config();
+  if (fallbackResult.error) {
+    console.error(
+      '❌ Erro ao carregar variáveis de ambiente:',
+      fallbackResult.error
+    );
+    process.exit(1);
+  }
 }
 
 console.log('✅ Variáveis carregadas:', result.parsed);
