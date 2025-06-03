@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "bun run ./src/index.js dev",
-    "prod": "bun run ./src/index.js prod"
+    "prod": "node ./src/index.js prod"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -24,7 +24,6 @@
     "discord.js": "^14.19.3",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "vscode": "."
+    "jsonwebtoken": "^9.0.2"
   }
 }
