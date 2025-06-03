@@ -1,5 +1,12 @@
+import { use } from 'react';
 import { prisma as p } from '../models/prisma.js';
 import { runCode } from '../services/pistonService.js';
+
+const POINTS_MAP = {
+  EASY: 50,
+  MEDIUM: 100,
+  HARD: 200,
+}
 
 const supportedLanguages = {
   python3: '3.10.0',
@@ -52,12 +59,43 @@ export const createSubmission = async (req, res) => {
       },
     });
 
+    if (passed) {
+      const ExistingSuccessfulSubmission = await p.submission.findFirst({
+        where: {
+          userId: userId,
+          challengeId: challengeId,
+          passed: true,
+        },
+      });
+      if (!ExistingSuccessfulSubmission){
+        const pointsToAward = POINTS_MAP[challenge.difficulty.toUpperCase()] || 0;
+
+        if (typeof pointsToAward === 'number' && pointsToAward > 0) {
+          await p.user.update({
+            where: { id: userId },
+            data: {
+              points: {
+                increment: pointsToAward, 
+              },
+            },
+          });
+          awardedPoints = pointsToAward
+          console.log(`User ${userId} scores  ${pointsToAward} for resolve this challenge ${challenge.title} (${challenge.difficulty}).`)
+        } else {
+          console.warn(`Difficulty '${challenge.difficulty}' of the challenge ${challenge.title} does not have a defined score.`);
+        }
+      } else {
+        console.log(`Users ${userId} already solve this challenge ${challenge.title}.`)
+      }
+    }
+
     return res.status(201).json({
       message: 'Submissão registrada com sucesso.',
       submission,
       passed,
       output: sanitizedOutput,
       expected: sanitizedExpected,
+      pointsAwarded: awardedPoints,
     });
   } catch (error) {
     console.error('Erro ao criar submissão:', error);
@@ -76,7 +114,7 @@ export const getSubmissionById = async (req, res) => {
       where: { id: Number(id)}
     });
     
-    if (!challenge) {
+    if (!submission) {
       return res.status(404).json({message: 'Submission not found'})
     }
     res.status(200).json(submission);
