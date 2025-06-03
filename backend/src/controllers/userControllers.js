@@ -1,8 +1,7 @@
 import { prisma as p } from '../models/prisma.js';
+import { JWT_SECRET } from '../index.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET;
 
 export const createUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -19,6 +18,7 @@ export const createUser = async (req, res) => {
       data: {
         username,
         email,
+        role: 'USER',
         password: hashedPassword,
       },
     });

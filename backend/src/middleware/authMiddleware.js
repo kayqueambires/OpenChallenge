@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'chave_secreta'; // mudar em prod
+import { JWT_SECRET } from '../index.js';
 
 export const authenticationToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];

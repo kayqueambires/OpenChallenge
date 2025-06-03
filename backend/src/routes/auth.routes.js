@@ -4,7 +4,7 @@ import customCors from '../middleware/corsMiddleware.js'; // Importe o middlewar
 
 const router = express.Router();
 
-router.post('/login', customCors, authUser);
+router.post('/login', authUser);
 router.post('/register', customCors, createUser);
 
 export default router;

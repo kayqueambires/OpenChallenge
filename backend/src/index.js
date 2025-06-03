@@ -22,6 +22,7 @@ console.log('✅ Variáveis carregadas:', result.parsed);
 const app = express();
 const port = process.env.PORT || 3000;
 const nodeEnv = process.env.NODE_ENV || mode;
+export const JWT_SECRET = process.env.JWT_SECRET;
 
 app.use(express.json());
 app.use(cors());
